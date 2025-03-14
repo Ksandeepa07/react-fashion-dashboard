@@ -3,18 +3,18 @@ import { ShoppingBag, Package, CheckCircle, DollarSign } from 'lucide-react';
 import { Order, Product } from '../types';
 
 interface StatsProps {
-  products: Product[];
+  productsCount: number;
   orders: Order[];
 }
 
-export function DashboardStats({ products, orders }: StatsProps) {
+export function DashboardStats({ productsCount, orders }: StatsProps) {
   const completedOrders = orders.filter(order => order.status === 'completed');
   const totalRevenue = completedOrders.reduce((sum, order) => sum + order.total, 0);
 
   const stats = [
     {
       title: 'Total Products',
-      value: products.length,
+      value: productsCount,
       icon: ShoppingBag,
       color: 'bg-blue-500'
     },

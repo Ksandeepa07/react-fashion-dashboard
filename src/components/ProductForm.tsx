@@ -3,15 +3,10 @@ import {useDropzone} from 'react-dropzone';
 import {Plus, Upload, X} from 'lucide-react';
 import {Product, ProductVariation} from '../types';
 import {saveProduct} from '../api/product.ts'
+import toast from "react-hot-toast";
 
-interface ProductFormProps {
-    // onSave: (product: Omit<Product, 'id' | 'createdAt'>) => void;
-    product: Product;
-    // initialData?: Product;
-    submitLabel?: string;
-}
 
-export function ProductForm({product, submitLabel = 'Save Product'}: ProductFormProps) {
+export function ProductForm() {
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -42,8 +37,6 @@ export function ProductForm({product, submitLabel = 'Save Product'}: ProductForm
             })
             .catch((error) => console.error("Error reading files:", error));
     }, []);
-
-    console.log(images)
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         onDrop,
@@ -76,10 +69,7 @@ export function ProductForm({product, submitLabel = 'Save Product'}: ProductForm
         const data = await saveProduct({name, description, images, variations, category})
         let result = JSON.parse(data)
         console.log(result.data)
-        alert(result.message)
-
     };
-
 
     return (
         <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8">
@@ -309,7 +299,7 @@ export function ProductForm({product, submitLabel = 'Save Product'}: ProductForm
                 type="submit"
                 className="mt-8 w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
             >
-                {submitLabel}
+                Save Product
             </button>
         </form>
     );

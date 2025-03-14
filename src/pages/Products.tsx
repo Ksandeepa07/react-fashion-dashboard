@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {ArrowLeft, Eye, Pencil, Trash2} from 'lucide-react';
 import {Product} from '../types';
 import {UpdateProductModal} from '../components/UpdateProductModal';
@@ -8,12 +8,9 @@ import {deleteProduct, fetchProducts} from "../api/product.ts";
 interface ProductsPageProps {
     // products: Product[];
     onBack: () => void;
-    onUpdate: (product: Product) => void;
-    onDelete: (id: string) => void;
-    onView: (product: Product) => void;
 }
 
- export function ProductsPage({onBack, onUpdate, onDelete, onView}: ProductsPageProps) {
+ export function ProductsPage({onBack}: ProductsPageProps) {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [products, setProducts] = useState<Product[]>();
@@ -22,8 +19,10 @@ interface ProductsPageProps {
     //get all products
      async function fetchAll() {
         const data = await fetchProducts()
-        console.log(data)
-        setProducts(data)
+         if (data){
+             toast.success('Product loaded successfully!')
+             setProducts(data)
+         }
     }
 
     //delete product
@@ -33,15 +32,9 @@ interface ProductsPageProps {
             const result = await deleteProduct(product._id)
             console.log(result)
             await fetchAll()
-            toast.success('Product deleted successfully');
         }
     };
 
-    const handleUpdate = (updatedProduct: Product) => {
-        onUpdate(updatedProduct);
-        setShowUpdateModal(false);
-        toast.success('Product updated successfully');
-    };
 
     useEffect(() => {
         fetchAll();
@@ -131,7 +124,7 @@ interface ProductsPageProps {
                                     </td>
                                     <td className="px-6 py-4 text-right space-x-2">
                                         <button
-                                            onClick={() => onView(product)}
+                                            // onClick={() => onView(product)}
                                             className="text-gray-600 hover:text-gray-900"
                                             title="View Details"
                                         >
@@ -170,7 +163,6 @@ interface ProductsPageProps {
                         setShowUpdateModal(false);
                         setSelectedProduct(null);
                     }}
-                    onUpdate={handleUpdate}
                 />
             )}
         </div>

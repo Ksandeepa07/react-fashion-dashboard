@@ -3,23 +3,22 @@ import {Plus, Upload, X} from 'lucide-react';
 import {Product, ProductVariation} from '../types';
 import {useDropzone} from "react-dropzone";
 import {fetchProducts, updateProduct} from "../api/product.ts";
+import toast from "react-hot-toast";
 
 interface UpdateProductModalProps {
     product: Product;
     onClose: () => void;
-    onUpdate: (product: Product) => void;
 }
 
-export function UpdateProductModal({product, onClose, onUpdate}: UpdateProductModalProps) {
+export function UpdateProductModal({product, onClose}: UpdateProductModalProps) {
 
     const handleUpdate = async (e: React.FormEvent) => {
-        let _id = product._id;
         e.preventDefault();
+        let _id = product._id;
         const data = await updateProduct({_id, name, description, images, variations, category})
         let result = JSON.parse(data)
         console.log(result.data)
-        alert(result.message)
-         onClose();
+        onClose();
     };
 
 

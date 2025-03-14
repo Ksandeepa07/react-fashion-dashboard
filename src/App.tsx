@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {DashboardStats} from './components/DashboardStats';
 import {ProductForm} from './components/ProductForm';
 import {OrdersPage} from './pages/Orders';
@@ -7,34 +7,12 @@ import {Product} from './types';
 import {demoOrders, demoProducts} from './data';
 import {ClipboardList, Package} from 'lucide-react';
 import toast, {Toaster} from 'react-hot-toast';
+import {fetchProducts} from "./api/product.ts";
 
 function App() {
-    const [products, setProducts] = useState<Product[]>(demoProducts);
+    const [products, setProductsCount] = useState(0);
     const [showOrders, setShowOrders] = useState(false);
     const [showProducts, setShowProducts] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-    const handleSaveProduct = (newProduct: Omit<Product, 'id' | 'createdAt'>) => {
-        const product: Product = {
-            ...newProduct,
-            // id: (products.length + 1).toString(),
-            // createdAt: new Date().toISOString(),
-            variations: newProduct.variations.map((v, index) => ({
-                ...v,
-                id: `${products.length + 1}-${index + 1}`
-            }))
-        };
-        setProducts([...products, product]);
-        toast.success('Product added successfully');
-    };
-
-    const handleUpdateProduct = (updatedProduct: Product) => {
-        setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
-    };
-
-    const handleDeleteProduct = (id: string) => {
-        setProducts(products.filter(p => p.id !== id));
-    };
 
     if (showOrders) {
         return <OrdersPage orders={demoOrders} onBack={() => setShowOrders(false)}/>;
@@ -43,13 +21,16 @@ function App() {
     if (showProducts) {
         return (
             <ProductsPage
-                products={products}
+                // products={products}
                 onBack={() => setShowProducts(false)}
-                onUpdate={handleUpdateProduct}
-                onDelete={handleDeleteProduct}
-                onView={(product) => setSelectedProduct(product)}
             />
         );
+    }
+
+    fetchAll();
+    async function fetchAll() {
+        const data = await fetchProducts()
+         setProductsCount(data.length)
     }
 
     return (
@@ -76,12 +57,12 @@ function App() {
                     </div>
                 </div>
 
-                <DashboardStats products={products} orders={demoOrders}/>
+                <DashboardStats productsCount={products} orders={demoOrders} />
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     <div className="lg:col-span-2">
                         <h2 className="text-xl font-semibold mb-4">Add New Product</h2>
-                        <ProductForm onSave={handleSaveProduct}/>
+                        <ProductForm/>
                     </div>
                 </div>
             </div>
