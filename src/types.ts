@@ -1,13 +1,19 @@
 export interface Product {
-  id: string;
-  name: string;
-  description: string;
+  _id?: string;
+  // name: string;
+  // description: string;
+  // images: string[];
+  // variations: ProductVariation[];
   images: string[];
-  variations: ProductVariation[];
-  createdAt: string;
+  variations: Omit<ProductVariation, "id">[];
+  name: string;
+  description: string
+  category:string
+  createdAt?: string;
 }
 
 export interface ProductVariation {
+  _id?: string;
   id: string;
   color: string;
   size: string;
