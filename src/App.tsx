@@ -3,34 +3,46 @@ import {DashboardStats} from './components/DashboardStats';
 import {ProductForm} from './components/ProductForm';
 import {OrdersPage} from './pages/Orders';
 import {ProductsPage} from './pages/Products';
-import {Product} from './types';
+import {Order, Product} from './types';
 import {demoOrders, demoProducts} from './data';
 import {ClipboardList, Package} from 'lucide-react';
 import toast, {Toaster} from 'react-hot-toast';
 import {fetchProducts} from "./api/product.ts";
+import {fetchOrders} from "./api/orders.ts";
 
 function App() {
-    const [products, setProductsCount] = useState(0);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [orders, setOrders] = useState<Order[]>([]);
     const [showOrders, setShowOrders] = useState(false);
     const [showProducts, setShowProducts] = useState(false);
 
+
     if (showOrders) {
-        return <OrdersPage orders={demoOrders} onBack={() => setShowOrders(false)}/>;
+        return <OrdersPage orders={orders} onBack={() => setShowOrders(false)}/>;
     }
 
     if (showProducts) {
         return (
             <ProductsPage
-                // products={products}
+                products={products}
                 onBack={() => setShowProducts(false)}
             />
         );
     }
 
-    fetchAll();
-    async function fetchAll() {
+    // useEffect(() => {
+        fetchAllProducts();
+        fetchAllOrders();
+    // }, []);
+
+    async function fetchAllProducts() {
         const data = await fetchProducts()
-         setProductsCount(data.length)
+        setProducts(data)
+    }
+
+    async function fetchAllOrders() {
+        const data = await fetchOrders()
+        setOrders(data)
     }
 
     return (
@@ -57,7 +69,7 @@ function App() {
                     </div>
                 </div>
 
-                <DashboardStats productsCount={products} orders={demoOrders} />
+                <DashboardStats product={products} orders={orders} />
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     <div className="lg:col-span-2">

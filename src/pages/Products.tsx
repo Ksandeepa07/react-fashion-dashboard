@@ -6,24 +6,24 @@ import toast, {Toaster} from 'react-hot-toast';
 import {deleteProduct, fetchProducts} from "../api/product.ts";
 
 interface ProductsPageProps {
-    // products: Product[];
+    products: Product[];
     onBack: () => void;
 }
 
- export function ProductsPage({onBack}: ProductsPageProps) {
+ export function ProductsPage({products,onBack}: ProductsPageProps) {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [showUpdateModal, setShowUpdateModal] = useState(false);
-    const [products, setProducts] = useState<Product[]>();
+    // const [products, setProducts] = useState<Product[]>();
 
 
-    //get all products
-     async function fetchAll() {
-        const data = await fetchProducts()
-         if (data){
-             toast.success('Product loaded successfully!')
-             setProducts(data)
-         }
-    }
+    // //get all products
+    //  async function fetchAll() {
+    //     const data = await fetchProducts()
+    //      if (data){
+    //          toast.success('Product loaded successfully!')
+    //          setProducts(data)
+    //      }
+    // }
 
     //delete product
     const handleDelete = async (product: Product) => {
@@ -31,13 +31,13 @@ interface ProductsPageProps {
             // onDelete(product.id);
             const result = await deleteProduct(product._id)
             console.log(result)
-            await fetchAll()
+            // await fetchAll()
         }
     };
 
 
     useEffect(() => {
-        fetchAll();
+        // fetchAll();
 
     }, []);
 
@@ -107,8 +107,8 @@ interface ProductsPageProps {
                                     <td className="px-6 py-4">
                                         <div className="text-sm text-gray-900">
                                             {product.variations.map((v) => (
-                                                <div key={v.id} className="mb-1">
-                                                    {v.color} / {v.size} - ${v.price} - {v.quantity}
+                                                <div key={v._id} className="mb-1">
+                                                      {v.size} - ${v.price} - {v.quantity}
                                                 </div>
                                             ))}
                                         </div>
@@ -123,13 +123,13 @@ interface ProductsPageProps {
                                         {new Date(product.createdAt).toLocaleDateString()}
                                     </td>
                                     <td className="px-6 py-4 text-right space-x-2">
-                                        <button
-                                            // onClick={() => onView(product)}
-                                            className="text-gray-600 hover:text-gray-900"
-                                            title="View Details"
-                                        >
-                                            <Eye className="w-5 h-5"/>
-                                        </button>
+                                        {/*<button*/}
+                                        {/*    // onClick={() => onView(product)}*/}
+                                        {/*    className="text-gray-600 hover:text-gray-900"*/}
+                                        {/*    title="View Details"*/}
+                                        {/*>*/}
+                                        {/*    <Eye className="w-5 h-5"/>*/}
+                                        {/*</button>*/}
                                         <button
                                             onClick={() => {
                                                 setSelectedProduct(product);

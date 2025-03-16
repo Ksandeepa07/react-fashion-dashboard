@@ -1,20 +1,19 @@
-import React from 'react';
 import { ShoppingBag, Package, CheckCircle, DollarSign } from 'lucide-react';
-import { Order, Product } from '../types';
+import {Order, Product} from '../types';
 
 interface StatsProps {
-  productsCount: number;
+  product: Product[];
   orders: Order[];
 }
 
-export function DashboardStats({ productsCount, orders }: StatsProps) {
-  const completedOrders = orders.filter(order => order.status === 'completed');
-  const totalRevenue = completedOrders.reduce((sum, order) => sum + order.total, 0);
+export function DashboardStats({ product, orders }: StatsProps) {
+  // const completedOrders = orders.filter(order => order.status === 'completed');
+  // const totalRevenue = completedOrders.reduce((sum, order) => sum + order.total, 0);
 
   const stats = [
     {
       title: 'Total Products',
-      value: productsCount,
+      value: product.length,
       icon: ShoppingBag,
       color: 'bg-blue-500'
     },
@@ -24,18 +23,24 @@ export function DashboardStats({ productsCount, orders }: StatsProps) {
       icon: Package,
       color: 'bg-green-500'
     },
+
+    // {
+    //   title: 'Completed Orders',
+    //   value: completedOrders.length,
+    //   icon: CheckCircle,
+    //   color: 'bg-purple-500'
+    // },
+
     {
-      title: 'Completed Orders',
-      value: completedOrders.length,
-      icon: CheckCircle,
-      color: 'bg-purple-500'
-    },
-    {
-      title: 'Total Revenue',
-      value: `$${totalRevenue.toFixed(2)}`,
+      title: 'Total Income',
+      value: new Intl.NumberFormat('en-LK', {
+        style: 'currency',
+        currency: 'LKR',
+      }).format(orders.reduce((sum, order) => sum + order.totalPrice, 0)),
       icon: DollarSign,
       color: 'bg-yellow-500'
     }
+
   ];
 
   return (

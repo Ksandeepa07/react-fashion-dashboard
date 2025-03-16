@@ -13,7 +13,7 @@ export function ProductForm() {
     const [category, setCategory] = useState('');
     const [images, setImages] = useState<string[]>([]);
     const [variations, setVariations] = useState<Omit<ProductVariation, 'id'>[]>(
-        [{color: '', size: '', price: 0, quantity: 0}]
+        [{size: '', price: 0, quantity: 0}]
     );
 
     // const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -51,7 +51,7 @@ export function ProductForm() {
     };
 
     const handleAddVariation = () => {
-        setVariations([...variations, {color: '', size: '', price: 0, quantity: 0}]);
+        setVariations([...variations, {size: '', price: 0, quantity: 0}]);
     };
 
     const handleVariationChange = (index: number, field: keyof ProductVariation, value: string | number) => {
@@ -170,50 +170,7 @@ export function ProductForm() {
                         {variations.map((variation, index) => (
                             <div key={index} className="flex gap-2 p-4 bg-gray-50 rounded-lg border border-gray-200">
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1">
-                                    {/*<input*/}
-                                    {/*    type="text"*/}
-                                    {/*    value={variation.color}*/}
-                                    {/*    onChange={(e) => handleVariationChange(index, 'color', e.target.value)}*/}
-                                    {/*    placeholder="Color"*/}
-                                    {/*    className="rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"*/}
-                                    {/*    required*/}
-                                    {/*/>*/}
 
-
-                                    {/*variation color*/}
-                                    <div>
-                                        <select
-                                            onChange={(e) => handleVariationChange(index, 'color', e.target.value)}
-                                            required
-                                            style={{
-                                                width: '100%',
-                                                padding: '10px',
-                                                borderRadius: '8px',
-                                                border: '1px solid #ccc',
-                                                backgroundColor: '#fff',
-                                                fontSize: '14px',
-                                                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-                                                cursor: 'pointer',
-                                            }}
-                                        >
-                                            <option value="">Select a color</option>
-                                            <option value="Red">Red</option>
-                                            <option value="Yellow">Yellow</option>
-                                            <option value="White">White</option>
-                                            <option value="Black">Black</option>
-                                        </select>
-                                    </div>
-                                    {/*variation color end*/}
-
-
-                                    {/*<input*/}
-                                    {/*    type="text"*/}
-                                    {/*    value={variation.size}*/}
-                                    {/*    onChange={(e) => handleVariationChange(index, 'size', e.target.value)}*/}
-                                    {/*    placeholder="Size"*/}
-                                    {/*    className="rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"*/}
-                                    {/*    required*/}
-                                    {/*/>*/}
 
                                     {/*variation size*/}
                                     <div>

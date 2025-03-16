@@ -62,7 +62,7 @@ export function UpdateProductModal({product, onClose}: UpdateProductModalProps) 
     };
 
     const handleAddVariation = () => {
-        setVariations([...variations, {color: '', size: '', price: 0, quantity: 0}]);
+        setVariations([...variations, {size: '', price: 0, quantity: 0}]);
     };
 
     const handleVariationChange = (index: number, field: keyof ProductVariation, value: string | number) => {
@@ -191,32 +191,6 @@ export function UpdateProductModal({product, onClose}: UpdateProductModalProps) 
                                         <div key={index}
                                              className="flex gap-2 p-4 bg-gray-50 rounded-lg border border-gray-200">
                                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1">
-                                                {/*variation color*/}
-                                                <div>
-                                                    <select
-                                                        onChange={(e) => handleVariationChange(index, 'color', e.target.value)}
-                                                        required
-                                                        value={variation.color}
-                                                        style={{
-                                                            width: '100%',
-                                                            padding: '10px',
-                                                            borderRadius: '8px',
-                                                            border: '1px solid #ccc',
-                                                            backgroundColor: '#fff',
-                                                            fontSize: '14px',
-                                                            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-                                                            cursor: 'pointer',
-                                                        }}
-                                                    >
-                                                        <option value="">Select a color</option>
-                                                        <option value="Red">Red</option>
-                                                        <option value="Yellow">Yellow</option>
-                                                        <option value="White">White</option>
-                                                        <option value="Black">Black</option>
-                                                    </select>
-                                                </div>
-                                                {/*variation color end*/}
-
 
                                                 {/*variation size*/}
                                                 <div>
