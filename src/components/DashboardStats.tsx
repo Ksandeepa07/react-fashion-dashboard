@@ -40,20 +40,20 @@ export function DashboardStats() {
   const stats = [
     {
       title: 'Total Products',
-      value: products?.length ? products.length: 0 ,
+      value: products?.length ? products.length : <div className="w-4 h-4 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>,
       icon: ShoppingBag,
       color: 'bg-blue-500'
     },
     {
       title: 'Total Orders',
-      value: orders?.length ? orders.length:0,
+      value: orders?.length ? orders.length : <div className="w-4 h-4 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>,
       icon: Package,
       color: 'bg-green-500'
     },
 
     {
       title: 'Orders Today',
-      value: todayOrders.length ? todayOrders.length:0,
+      value: todayOrders.length ? todayOrders.length : <div className="w-4 h-4 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>,
       icon: CheckCircle,
       color: 'bg-purple-500'
     },
@@ -63,7 +63,7 @@ export function DashboardStats() {
       value: new Intl.NumberFormat('en-LK', {
         style: 'currency',
         currency: 'LKR',
-      }).format(orders.reduce((sum, order) => sum + order.totalPrice, 0)),
+      }).format(orders.reduce((sum, order) => sum + order.totalPrice,0)),
       icon: DollarSign,
       color: 'bg-yellow-500'
     }
