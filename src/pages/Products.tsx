@@ -4,6 +4,8 @@ import {Product} from '../types';
 import {UpdateProductModal} from '../components/UpdateProductModal';
 import toast, {Toaster} from 'react-hot-toast';
 import {deleteProduct, fetchProducts} from "../api/product.ts";
+import ProductSkeleton from "../components/skeleton/ProductTableSkeleton.tsx";
+import ProductTableSkeleton from "../components/skeleton/ProductTableSkeleton.tsx";
 
 interface ProductsPageProps {
     onBack: () => void;
@@ -84,70 +86,70 @@ interface ProductsPageProps {
                             </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
-                            {products?.map((product) => (
-                                <tr key={product._id} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            <div className="h-10 w-10 flex-shrink-0">
-                                                <img
-                                                    className="h-10 w-10 rounded-lg object-cover"
-                                                    src={product.images?.[0]}
-                                                    alt={product.name}
-                                                />
-                                            </div>
-                                            <div className="ml-4">
-                                                <div className="text-sm font-medium text-gray-900">{product.name}</div>
-                                                <div className="text-sm text-gray-500">{product.description}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="text-sm text-gray-900">
-                                            {product.variations.map((v) => (
-                                                <div key={v._id} className="mb-1">
-                                                      {v.size} - ${v.price} - {v.quantity}
+
+                            {products?.length > 0 ? (
+                                products?.map((product) => (
+                                    <tr key={product._id} className="hover:bg-gray-50 transition-colors">
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center">
+                                                <div className="h-10 w-10 flex-shrink-0">
+                                                    <img
+                                                        className="h-10 w-10 rounded-lg object-cover"
+                                                        src={product.images?.[0]}
+                                                        alt={product.name}
+                                                    />
                                                 </div>
-                                            ))}
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">
-                                        {product.variations.reduce((sum, v) => sum + v.quantity, 0)} units
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">
-                                        {product.category}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">
-                                        {new Date(product.createdAt).toLocaleDateString()}
-                                    </td>
-                                    <td className="px-6 py-4 text-right space-x-2">
-                                        {/*<button*/}
-                                        {/*    // onClick={() => onView(product)}*/}
-                                        {/*    className="text-gray-600 hover:text-gray-900"*/}
-                                        {/*    title="View Details"*/}
-                                        {/*>*/}
-                                        {/*    <Eye className="w-5 h-5"/>*/}
-                                        {/*</button>*/}
-                                        <button
-                                            onClick={() => {
-                                                setSelectedProduct(product);
-                                                setShowUpdateModal(true);
-                                            }}
-                                            className="text-blue-600 hover:text-blue-900"
-                                            title="Edit"
-                                        >
-                                            <Pencil className="w-5 h-5"/>
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(product)}
-                                            className="text-red-600 hover:text-red-900"
-                                            title="Delete"
-                                        >
-                                            <Trash2 className="w-5 h-5"/>
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
+                                                <div className="ml-4">
+                                                    <div className="text-sm font-medium text-gray-900">{product.name}</div>
+                                                    <div className="text-sm text-gray-500">{product.description}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="text-sm text-gray-900">
+                                                {product.variations.map((v) => (
+                                                    <div key={v._id} className="mb-1">
+                                                        {v.size} - ${v.price} - {v.quantity}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                            {product.variations.reduce((sum, v) => sum + v.quantity, 0)} units
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                            {product.category}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                            {new Date(product.createdAt).toLocaleDateString()}
+                                        </td>
+                                        <td className="px-6 py-4 text-right space-x-2">
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedProduct(product);
+                                                    setShowUpdateModal(true);
+                                                }}
+                                                className="text-blue-600 hover:text-blue-900"
+                                                title="Edit"
+                                            >
+                                                <Pencil className="w-5 h-5"/>
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(product)}
+                                                className="text-red-600 hover:text-red-900"
+                                                title="Delete"
+                                            >
+                                                <Trash2 className="w-5 h-5"/>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                    <ProductTableSkeleton/>
+
+                                )
+                            }
+                                </tbody>
                         </table>
                     </div>
                 </div>

@@ -1,38 +1,69 @@
 import { ShoppingBag, Package, CheckCircle, DollarSign } from 'lucide-react';
 import {Order, Product} from '../types';
+import {fetchProducts} from "../api/product.ts";
+import {useEffect, useState} from "react";
+import {fetchOrders} from "../api/orders.ts";
 
 export function DashboardStats() {
   // const completedOrders = orders.filter(order => order.status === 'completed');
   // const totalRevenue = completedOrders.reduce((sum, order) => sum + order.total, 0);
 
+  const [products, setProducts] = useState<Product[]>();
+  const [orders, setOrders] = useState<Order[]>([]);
+
+
+
+  useEffect(() => {
+    fetchAllProduct()
+    fetchAllOrders()
+  }, []);
+
+
+
+  async function fetchAllProduct() {
+    const data = await fetchProducts()
+    if (data){
+      setProducts(data)
+    }
+  }
+
+  async function fetchAllOrders() {
+    const data = await fetchOrders()
+    if (data) {
+      setOrders(data)
+    }
+  }
+
+  const today = new Date().toISOString().split('T')[0];
+  const todayOrders = orders.filter(order => order.createdAt?.startsWith(today));
+
   const stats = [
     {
       title: 'Total Products',
-      value: 2,
+      value: products?.length ? products.length: 0 ,
       icon: ShoppingBag,
       color: 'bg-blue-500'
     },
     {
       title: 'Total Orders',
-      value: 2,
+      value: orders?.length ? orders.length:0,
       icon: Package,
       color: 'bg-green-500'
     },
 
     {
-      title: 'Completed Orders',
-      value: 3,
+      title: 'Orders Today',
+      value: todayOrders.length ? todayOrders.length:0,
       icon: CheckCircle,
       color: 'bg-purple-500'
     },
 
     {
       title: 'Total Income',
-      // value: new Intl.NumberFormat('en-LK', {
-      //   style: 'currency',
-      //   currency: 'LKR',
-      // }).format(orders.reduce((sum, order) => sum + order.totalPrice, 0)),
-      value: 3,
+      value: new Intl.NumberFormat('en-LK', {
+        style: 'currency',
+        currency: 'LKR',
+      }).format(orders.reduce((sum, order) => sum + order.totalPrice, 0)),
       icon: DollarSign,
       color: 'bg-yellow-500'
     }
