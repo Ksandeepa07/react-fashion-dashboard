@@ -16,8 +16,7 @@ export function UpdateProductModal({product, onClose}: UpdateProductModalProps) 
         e.preventDefault();
         let _id = product._id;
         const data = await updateProduct({_id, name, description, images, variations, category})
-        let result = JSON.parse(data)
-        console.log(result.data)
+        clearFields();
         onClose();
     };
 
@@ -74,6 +73,14 @@ export function UpdateProductModal({product, onClose}: UpdateProductModalProps) 
     const handleRemoveVariation = (index: number) => {
         setVariations(variations.filter((_, i) => i !== index));
     };
+
+    const clearFields=()=>{
+        setName('');
+        setDescription('');
+        setCategory('');
+        setImages([]);
+        setVariations([]);
+    }
 
 
     return (

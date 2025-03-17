@@ -19,7 +19,7 @@ export async function fetchProducts(): Promise<Product[]> {
     }
 }
 
-export const saveProduct = async (product): Promise<String> => {
+export const saveProduct = async (product): Promise<boolean> => {
     try {
         const response = await axios.post<Product>('http://localhost:3003/api/v1/products/save', product,{
             headers: {
@@ -27,15 +27,17 @@ export const saveProduct = async (product): Promise<String> => {
             }
         });
         toast.success(response.data.message)
-        return JSON.stringify({ message: response.data.message, data:response.data });
+        // return JSON.stringify({ message: response.data.message, data:response.data });
+        return true;
     } catch (error) {
         console.error("Error saving product:", error.message);
         toast.error(error.message)
-        return JSON.stringify({ message: "Error saving product", data:error.data });
+        // return JSON.stringify({ message: "Error saving product", data:error.data });
+        return false;
     }
 };
 
-export const updateProduct = async (product): Promise<String> => {
+export const updateProduct = async (product): Promise<boolean> => {
     try {
         const response = await axios.patch<Product>('http://localhost:3003/api/v1/products/update', product,{
             headers: {
@@ -43,17 +45,19 @@ export const updateProduct = async (product): Promise<String> => {
             }
         });
         toast.success(response.data.message)
-        return JSON.stringify({ message: response.data.message, data:response.data });
+        return true;
+        // return JSON.stringify({ message: response.data.message, data:response.data });
     } catch (error) {
         console.error("Error updating product:", error.message);
         toast.error(error.message)
-        return JSON.stringify({ message: "Error updating product", data:error.data });
+        return false;
+        // return JSON.stringify({ message: "Error updating product", data:error.data });
 
     }
 };
 
 
-export const deleteProduct = async (id): Promise<Product> => {
+export const deleteProduct = async (id): Promise<boolean> => {
     try {
         const response = await axios.delete<Product>(`http://localhost:3003/api/v1/products/delete/${id}`,{
             headers: {
@@ -61,10 +65,10 @@ export const deleteProduct = async (id): Promise<Product> => {
             }
         });
         toast.success(response.data.message)
-        return response.data;
+        return true;
     } catch (error) {
         console.error("Error deleting product:", error);
         toast.error(error.message)
-        throw error;
+       return false;
     }
 };

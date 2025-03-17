@@ -51,4 +51,11 @@ export interface Order {
     size: string;
   }[];
   totalPrice:number;
+  createdAt?: string;
+}
+
+export interface Auth {
+  name: string;
+  email: string;
+  role: string;
 }

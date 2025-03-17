@@ -5,39 +5,27 @@ import toast from "react-hot-toast";
 import {fetchOrders} from "../api/orders.ts";
 
 interface OrdersPageProps {
-    orders: Order[];
+    // orders: Order[];
     onBack: () => void;
 }
 
-export function OrdersPage({orders, onBack}: OrdersPageProps) {
+export function OrdersPage({onBack}: OrdersPageProps) {
 
-    // const [ordersList, setOrders] = useState<Order[]>();
-
-
-    // async function fetchAll() {
-    //     const data = await fetchOrders()
-    //     if (data) {
-    //         toast.success('Orders loaded successfully!')
-    //         setOrders(data)
-    //     }
-    // }
-    //
-    //
-    // useEffect(() => {
-    //     fetchAll()
-    // }, []);
+    const [ordersList, setOrders] = useState<Order[]>();
 
 
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'completed':
-                return 'bg-green-100 text-green-800 ring-green-600/20';
-            case 'cancelled':
-                return 'bg-red-100 text-red-800 ring-red-600/20';
-            default:
-                return 'bg-yellow-100 text-yellow-800 ring-yellow-600/20';
+    async function fetchAll() {
+        const data = await fetchOrders()
+        if (data) {
+            setOrders(data)
         }
-    };
+    }
+
+
+    useEffect(() => {
+        fetchAll()
+    }, []);
+
 
     return (
         <div className="min-h-screen bg-gray-50 py-8">
@@ -92,7 +80,7 @@ export function OrdersPage({orders, onBack}: OrdersPageProps) {
                             </tr>
                             </thead>
                           <tbody className="divide-y divide-gray-200 bg-white">
-                          {orders?.map((order) => (
+                          {ordersList?.map((order) => (
                               <tr  className="hover:bg-gray-50 transition-colors">
                                 <td className="px-6 py-4">
                                   {/*<div className="text-sm font-medium text-gray-900">#{order.id}</div>*/}
