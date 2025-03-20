@@ -161,6 +161,7 @@ interface ProductsPageProps {
                     onClose={() => {
                         setShowUpdateModal(false);
                         setSelectedProduct(null);
+                        fetchAll();
                     }}
                 />
             )}
